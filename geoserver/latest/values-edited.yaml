@@ -78,7 +78,8 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: nodepool2
+nodeSelector:
+  agentpool: nodepool2
 
 tolerations: []
 
