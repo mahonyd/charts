@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: geosolutionsit/geoserver
+  repository: docker.osgeo.org/geoserver
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "2.20.4"
+  tag: "2.23.1"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -16,12 +16,12 @@ fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: "workload-identity-test"
 
 podAnnotations: {}
 
@@ -37,16 +37,14 @@ securityContext:
   runAsUser: 1000
 
 service:
-  type: NodePort
-  port: 80
+  type: LoadBalancer
+  port: 8080
 
 ingress:
   enabled: true
   className: ""
   annotations:
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    kubernetes.io/ingress.class: alb
+    kubernetes.io/ingress.class: nginx
 
   hosts:
     - host: geoserver-voxel.local
@@ -61,26 +59,26 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  limits:
+    cpu: 400m
+    memory: 128Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 5
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
+nodeSelector: nodepool2
 
 tolerations: []
 
@@ -124,7 +122,8 @@ postgis:
 
 geoserver:
   plugins: "https://sourceforge.net/projects/geoserver/files/GeoServer/2.20.4/extensions/geoserver-2.20.4-monitor-plugin.zip \
-    https://sourceforge.net/projects/geoserver/files/GeoServer/2.20.4/extensions/geoserver-2.20.4-control-flow-plugin.zip"
+    https://sourceforge.net/projects/geoserver/files/GeoServer/2.20.4/extensions/geoserver-2.20.4-control-flow-plugin.zip \
+    https://build.geoserver.org/geoserver/2.23.x/ext-latest/geoserver-2.23-SNAPSHOT-sqlserver-plugin.zip"
   geoserver_log_location: "/var/geoserver/logs/$(POD_HOSTNAME).log"
   geoserver_audit_path: "/var/geoserver/audits"
   geoserver_heap_dump_dir: "/var/geoserver/memory_dumps"
