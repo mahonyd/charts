@@ -30,7 +30,7 @@ podSecurityContext:
   #   drop:
   #   - ALL
   # readOnlyRootFilesystem: true
-  runAsNonRoot: true
+  runAsNonRoot: false
   runAsUser: 1000
   fsGroup: 1000
 
