@@ -26,13 +26,12 @@ serviceAccount:
 podAnnotations: {}
 
 podSecurityContext:
+  fsGroup: 1000
+
+initSecurityContext:
   capabilities:
-    drop:
-    - ALL
-    add:
-    - CHOWN
-    - FOWNER
-    - DAC_OVERRIDE
+    drop: ["all"]
+    add: ["CHOWN", "FOWNER", "DAC_OVERRIDE"]
   runAsUser: 0
   allowPrivilegeEscalation: true
   readOnlyRootFilesystem: false
