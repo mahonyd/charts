@@ -27,6 +27,7 @@ podAnnotations: {}
 
 podSecurityContext:
   fsGroup: 1000
+  runAsUser: 0
 
 securityContext:
   # capabilities:
