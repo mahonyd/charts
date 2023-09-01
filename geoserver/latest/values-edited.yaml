@@ -25,7 +25,7 @@ serviceAccount:
 
 podAnnotations: {}
 
-initSecurityContext:
+podSecurityContext:
   capabilities:
     drop:
     - ALL
