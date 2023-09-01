@@ -29,12 +29,11 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 securityContext:
-  capabilities:
-    drop:
-    - ALL
-    add: ["CAP_CHOWN"]
+  # capabilities:
+  #   drop:
+  #   - ALL
   # readOnlyRootFilesystem: true
-  runAsNonRoot: false
+  # runAsNonRoot: true
   runAsUser: 1000
 
 service:
