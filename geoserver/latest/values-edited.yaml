@@ -30,8 +30,10 @@ podSecurityContext:
 
 initSecurityContext:
   capabilities:
-    drop: ["all"]
-    add: ["CHOWN", "FOWNER", "DAC_OVERRIDE"]
+    # drop: ["all"]
+    add:
+      - all
+    # add: ["CHOWN", "FOWNER", "DAC_OVERRIDE"]
   runAsUser: 0
   allowPrivilegeEscalation: true
   readOnlyRootFilesystem: false
@@ -41,7 +43,7 @@ securityContext:
   # capabilities:
   #   drop:
   #   - ALL
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
   runAsNonRoot: true
   runAsUser: 1000
 
@@ -134,12 +136,12 @@ geoserver:
   plugins: "https://sourceforge.net/projects/geoserver/files/GeoServer/2.20.4/extensions/geoserver-2.20.4-monitor-plugin.zip \
     https://sourceforge.net/projects/geoserver/files/GeoServer/2.20.4/extensions/geoserver-2.20.4-control-flow-plugin.zip \
     https://build.geoserver.org/geoserver/2.23.x/ext-latest/geoserver-2.23-SNAPSHOT-sqlserver-plugin.zip"
-  geoserver_log_location: "/var/geoserver/logs/$(POD_HOSTNAME).log"
+  geoserver_log_location: "/var/geoserver/logs/geoserver-0.log"
   geoserver_audit_path: "/var/geoserver/audits"
   geoserver_heap_dump_dir: "/var/geoserver/memory_dumps"
   geoserver_data_dir: "/var/geoserver/datadir"
-  geoserver_cache_data_dir: "$(GEOSERVER_DATA_DIR)/gwc_cache_dir"
-  geoserver_cache_config_dir: "$(GEOSERVER_DATA_DIR)/gwc"
+  geoserver_cache_data_dir: "/var/geoserver/datadir/gwc_cache_dir"
+  geoserver_cache_config_dir: "/var/geoserver/datadir/gwc"
   geoserver_netcdf_data_dir: "/var/geoserver/netcdf_data_dir"
   geoserver_grib_cache_dir: "/var/geoserver/grib_cache_dir"
   geoserver_csrf_disabled: "true"
